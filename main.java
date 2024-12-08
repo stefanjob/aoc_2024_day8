@@ -1,11 +1,10 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.Set;
  
 public class main {   
@@ -76,34 +75,23 @@ public class main {
     public static void part1() {
         System.out.println("AoC Day 8 Part 1");
        
-        boolean full = true;
-        Scanner scanner = null;
- 
+        boolean full = true; 
+        List<String> lines = new ArrayList<>();
+
         try {
             if (full) {
-                scanner = new Scanner(new File("input_full.txt"));
+                lines = Files.readAllLines(Paths.get("input_full.txt"));
             } else {
-                scanner = new Scanner(new File("input_test.txt"));
+                lines = Files.readAllLines(Paths.get("input_test.txt"));
             }
         }
-        catch (FileNotFoundException e) {
+        catch (Exception e) {
             e.printStackTrace();
         }
-       
-        ArrayList<String> lines = new ArrayList<>();
-        int lineCounter = 0;
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            System.out.println(line);
-            lineCounter++;
-            lines.add(line);
-        } 
-        map = new String[lineCounter];
-        int counter = 0;
-        for (String l :lines) {
-            map[counter] = lines.get(counter);
-            counter++;
-        }   
+    
+        map = new String[lines.size()];
+        map = lines.toArray(String[]::new);
+          
         System.out.println("Unique antinode locations: " + countUniqueAntinodes(map));
     }
  
